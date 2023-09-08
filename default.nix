@@ -1,1 +1,1 @@
-{ imports = builtins.attrValues (import ./modules/nixos.nix); }
+import ./modules/nixos.nix
