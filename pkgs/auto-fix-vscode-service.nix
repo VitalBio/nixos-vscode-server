@@ -69,7 +69,7 @@
   };
 
   patchELFScript = writeShellApplication {
-    name = "patchelf-vscode-server";
+    name = "patchelf-vscode-${name}";
     runtimeInputs = [ coreutils findutils patchelf ];
     text = ''
       bin=$1
@@ -119,12 +119,12 @@
       # Mark the bin directory as being fully patched.
       echo 1 > "$patched_file"
 
-      ${optionalString (postPatch != "") ''${writeShellScript "post-patchelf-vscode-server" postPatch} "$bin"''}
+      ${optionalString (postPatch != "") ''${writeShellScript "post-patchelf-vscode-${name}" postPatch} "$bin"''}
     '';
   };
 
   autoFixScript = writeShellApplication {
-    name = "auto-fix-vscode-server";
+    name = "auto-fix-vscode-${name}";
     runtimeInputs = [ coreutils findutils inotify-tools ];
     text = ''
       bins_dir=${installPath}/bin
@@ -160,7 +160,7 @@
 
         # We leave the rest up to the Bash script
         # to keep having to deal with 'sh' compatibility to a minimum.
-        ${patchELFScript}/bin/patchelf-vscode-server '$bin'
+        ${patchELFScript}/bin/patchelf-vscode-${name} '$bin'
 
         # Let Node.js take over as if this script never existed.
         exec '$orig_node' "\$@"
