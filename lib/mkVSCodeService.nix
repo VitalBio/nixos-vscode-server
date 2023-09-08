@@ -54,7 +54,7 @@ moduleConfig: name: defaultConfig: {
   config = let
     cfg = config.services."vscode-${name}";
     auto-fix-vscode-service =
-      pkgs.callPackage ../../pkgs/auto-fix-vscode-service.nix
+      pkgs.callPackage ../pkgs/auto-fix-vscode-service.nix
       ({ inherit name; } // removeAttrs cfg [ "enable" ]);
   in
     lib.mkIf cfg.enable (lib.mkMerge [
